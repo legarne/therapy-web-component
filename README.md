@@ -23,11 +23,36 @@ components and some quality of life features for web development.
 deno add jsr:@therapy/web-component
 
 # Builds a components.d.ts type file that contains the types of your web components
-# Recommended to use with the watch flag in your src directory
+# Recommended to use with the watch flag in your src directory.
 deno run -A --watch=./src jsr:@therapy/web-component/build-types src
 ```
 
 ### Usage and Examples
+
+#### build-types
+
+The included script allows for type generation of any found `WebComponents` in your project. It will create a `component.d.ts` file
+in your cwd. **Note that this script will make a modification to your `deno.json` to automatically add the .d.ts file to your
+`compilerOptions.types`**
+
+It's recommended to use it with the watch flag and its usage is a run call from deno.
+`deno run -A jsr:@therapy/web-component/build-types [path]`
+
+By default, the script will look for a `src` directory in the cwd, but can be changed through an argument to the script, for example:
+`deno run -A --watch=./src jsr:@therapy/web-component/build-types packages/components`. If using the script, make sure to export any
+types or interfaces that are used:
+
+```ts
+// must be exported
+export interface ComponentProps {
+  foo?: string;
+  bar?: number;
+}
+
+class ExampleC extends WebComponent<ComponentProps> {}
+
+export default ExampleC;
+```
 
 #### Basic Usage
 
@@ -135,15 +160,15 @@ strict initializer property in `compilerOptions`.
 // deno.json
 {
   "compilerOptions": {
-    "strictPropertyInitialization": false
-  }
+    "strictPropertyInitialization": false,
+  },
 }
 ```
 
 An example:
 
 ```tsx
-interface IExampleProps {
+export interface IExampleProps {
   count?: number;
   onCountChange?: (count: number) => void;
 }
@@ -190,7 +215,7 @@ and booleans are allowed by the HTML specification as attributes on an element:
   doSomething={() => {
     /* ... */
   }}
-/>;
+/>
 ```
 
 In this case, `someProp` and `isAlive` are also available in the element's
@@ -213,11 +238,11 @@ console.log(element.doSomething); // Function
 
 #### Observables
 
-Web Components have first class support for `@therapy/observable` and work
+Web Components have first class support for [@therapy/observable](https://jsr.io/@therapy/observable) and work
 nicely with them. Changing the counter example from above:
 
 ```tsx
-interface IExampleProps {
+export interface IExampleProps {
   count?: number;
   onCountChange?: (count: number) => void;
 }
