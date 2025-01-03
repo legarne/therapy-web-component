@@ -1,0 +1,26 @@
+{
+  "name": "@therapy/web-component",
+  "version": "0.0.1",
+  "license": "MIT",
+  "imports": {
+    "@therapy/observable": "jsr:@therapy/observable@^0.0.2"
+  },
+  "exports": {
+    ".": "./mod.ts",
+    "./build-types": "./build-types.ts"
+  },
+  "compilerOptions": {
+    "lib": ["deno.ns", "dom", "dom.iterable"]
+  },
+  "fmt": {
+    "lineWidth": 80
+  },
+  "lint": {
+    "rules": {
+      "exclude": ["no-explicit-any"]
+    }
+  },
+  "publish": {
+    "exclude": ["_tests/", "scripts/", "./.github"]
+  }
+}
