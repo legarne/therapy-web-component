@@ -10,17 +10,27 @@
     "./build-types": "./build-types.ts"
   },
   "compilerOptions": {
-    "lib": ["deno.ns", "dom", "dom.iterable"]
+    "lib": [
+      "deno.ns",
+      "dom",
+      "dom.iterable"
+    ]
   },
   "fmt": {
     "lineWidth": 80
   },
   "lint": {
     "rules": {
-      "exclude": ["no-explicit-any"]
+      "exclude": [
+        "no-explicit-any"
+      ]
     }
   },
   "publish": {
-    "exclude": ["_tests/", "scripts/", "./.github"]
+    "exclude": [
+      "_tests/",
+      "scripts/",
+      "./.github"
+    ]
   }
 }
