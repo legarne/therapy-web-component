@@ -122,14 +122,14 @@ export class WebComponent<T extends Attributes = Attributes>
    *
    * @see https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements#using_the_lifecycle_callbacks
    */
-  connectedCallback() {}
+  connectedCallback(): void {}
 
   /**
    * Called each time the element is disconnected from the document’s DOM.
    * Cleans up all added event listeners and disposes of any Observable-like members
    * to prevent memory leaks or unintended side effects.
    */
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     this.#listeners.forEach(({ event, listener }) => {
       this.removeEventListener(event, listener);
     });
@@ -155,7 +155,7 @@ export class WebComponent<T extends Attributes = Attributes>
    * Called each time the element is moved to a new document.
    * (For instance, after calling document.adoptNode on it.)
    */
-  adoptedCallback() {}
+  adoptedCallback(): void {}
 
   /**
    * Called when one of the element's attributes is changed, appended, removed, or replaced.
@@ -166,7 +166,7 @@ export class WebComponent<T extends Attributes = Attributes>
    * @param oldValue - The old value of the attribute.
    * @param newValue - The new value of the attribute.
    */
-  attributeChangedCallback() {}
+  attributeChangedCallback(): void {}
 }
 
 type ElementCTor = (new (...args: any[]) => HTMLElement) & {

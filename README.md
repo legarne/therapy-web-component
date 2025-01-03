@@ -4,8 +4,8 @@
 
 ## Description
 
-@therapy/web-component adds some bonus functionality to native HTML web components and some quality of life features
-for web development.
+@therapy/web-component adds some bonus functionality to native HTML web
+components and some quality of life features for web development.
 
 ## Permissions
 
@@ -31,14 +31,15 @@ deno run -A --watch=./src jsr:@therapy/web-component/build-types src
 
 #### Basic Usage
 
-_See the [Web Component](https://developer.mozilla.org/en-US/docs/Web/API/Web_components) documentation for more information about
-web component usage._
+_See the
+[Web Component](https://developer.mozilla.org/en-US/docs/Web/API/Web_components)
+documentation for more information about web component usage._
 
-Any class that extends from `WebComponent` will also extend from `HTMLElement`. This type
-of class should also have a static member of the component's name.
+Any class that extends from `WebComponent` will also extend from `HTMLElement`.
+This type of class should also have a static member of the component's name.
 
 ```ts
-import { WebComponent, registerComponents } from "@therapy/web-component";
+import { registerComponents, WebComponent } from "@therapy/web-component";
 
 class TestComponent extends WebComponent {
   static componentName = "test-component";
@@ -54,20 +55,25 @@ export default TestComponent;
 registerComponents(TestComponent);
 ```
 
-The `registerComponents` function will handle registering the component to the `customElements` window object (though make sure this function is actually called in your application,
-perhaps in a bootstrap function). From then on, the web component's tag will be available.
+The `registerComponents` function will handle registering the component to the
+`customElements` window object (though make sure this function is actually
+called in your application, perhaps in a bootstrap function). From then on, the
+web component's tag will be available.
 
 ```ts
 document.body.append(`<test-component></test-component>`);
 ```
 
-_It is recommended to use [@therapy/jsx](https://jsr.io/@therapy/jsx) with `@therapy/web-component`,
-but it isn't required. Examples will show a mixture of both._
+_It is recommended to use [@therapy/jsx](https://jsr.io/@therapy/jsx) with
+`@therapy/web-component`, but it isn't required. Examples will show a mixture of
+both._
 
 #### WebComponent.html
 
-`WebComponent.html` is a convenience function to work with elements, in contrast to `HTMLElement.innerHTML` working with strings.
-As a setter, it will replace this element's html content, and as a getter, return this element's `HTMLCollection`.
+`WebComponent.html` is a convenience function to work with elements, in contrast
+to `HTMLElement.innerHTML` working with strings. As a setter, it will replace
+this element's html content, and as a getter, return this element's
+`HTMLCollection`.
 
 ```tsx
 class ExampleComp extends WebComponent {
@@ -90,8 +96,8 @@ class ExampleComp extends WebComponent {
 #### Refs
 
 `ref` is a special prop that any element created may have. It will automatically
-assign the members' value to the element _after_ any `WebComponent.html` call. Refs **must**
-be prepended with `$`
+assign the members' value to the element _after_ any `WebComponent.html` call.
+Refs **must** be prepended with `$`
 
 ```tsx
 class RefExample extends WebComponent {
@@ -110,24 +116,27 @@ class RefExample extends WebComponent {
 }
 ```
 
-Refs are always updated after a call to `html`. Note that `html` and `innerHTML` are different properties.
-Refs provide an easy way to access markup elements without needing to use `querySelector` or similar, though
-those are still valid approaches and are sometimes appropriate.
+Refs are always updated after a call to `html`. Note that `html` and `innerHTML`
+are different properties. Refs provide an easy way to access markup elements
+without needing to use `querySelector` or similar, though those are still valid
+approaches and are sometimes appropriate.
 
-`WebComponent.updateRefs()` will forcibly update any refs if you require refs to be updated at some point after an `html` call.
+`WebComponent.updateRefs()` will forcibly update any refs if you require refs to
+be updated at some point after an `html` call.
 
 #### WebComponent Props
 
-The `WebComponent` class accepts properties by generic interface that describe what props are allowed,
-including default `HTMLElement` props. Props provided by interface must be listed as a member variable.
-It is recommended to disable the strict initializer property in `compilerOptions`.
+The `WebComponent` class accepts properties by generic interface that describe
+what props are allowed, including default `HTMLElement` props. Props provided by
+interface must be listed as a member variable. It is recommended to disable the
+strict initializer property in `compilerOptions`.
 
 ```jsonc
 // deno.json
 {
   "compilerOptions": {
-    "strictPropertyInitialization": false,
-  },
+    "strictPropertyInitialization": false
+  }
 }
 ```
 
@@ -171,8 +180,8 @@ document.body.append(
 );
 ```
 
-Some props undergo attribute coercion if it is applicable. For instance, strings and booleans are
-allowed by the HTML specification as attributes on an element:
+Some props undergo attribute coercion if it is applicable. For instance, strings
+and booleans are allowed by the HTML specification as attributes on an element:
 
 ```tsx
 <some-element
@@ -181,12 +190,13 @@ allowed by the HTML specification as attributes on an element:
   doSomething={() => {
     /* ... */
   }}
-/>
+/>;
 ```
 
-In this case, `someProp` and `isAlive` are also available in the element's attributes, by
-`element.attributes` or `element.getAttribute('someProp')`, but `doSomething` is not because it cannot be
-safely cast to a string or boolean. `doSomething` is still available as a member, however:
+In this case, `someProp` and `isAlive` are also available in the element's
+attributes, by `element.attributes` or `element.getAttribute('someProp')`, but
+`doSomething` is not because it cannot be safely cast to a string or boolean.
+`doSomething` is still available as a member, however:
 
 ```tsx
 const element: SomeElement = (
@@ -203,7 +213,8 @@ console.log(element.doSomething); // Function
 
 #### Observables
 
-Web Components have first class support for `@therapy/observable` and work nicely with them. Changing the counter example from above:
+Web Components have first class support for `@therapy/observable` and work
+nicely with them. Changing the counter example from above:
 
 ```tsx
 interface IExampleProps {
@@ -255,17 +266,21 @@ document.body.append(
 );
 ```
 
-Like this, web components can expose their "stateful" members, and other parts of the application
-can easily modify them without having to worry about contexts, stores, or prop drilling.
+Like this, web components can expose their "stateful" members, and other parts
+of the application can easily modify them without having to worry about
+contexts, stores, or prop drilling.
 
 #### Resource Disposal
 
-WebComponents will automatically dispose most references that could dangle after disconnection.
-Most notably, any handlers added by `addEventListener` will be freed automatically when the element is deleted or moved.
-Note above the `protected _count = new Observable(0)` in the counter example. Observables that are marked by the protected access
-modifier (or public) will also be automatically disposed, along with event handlers added by `addEventListener`.
+WebComponents will automatically dispose most references that could dangle after
+disconnection. Most notably, any handlers added by `addEventListener` will be
+freed automatically when the element is deleted or moved. Note above the
+`protected _count = new Observable(0)` in the counter example. Observables that
+are marked by the protected access modifier (or public) will also be
+automatically disposed, along with event handlers added by `addEventListener`.
 
-These operations happen during the `disconnectedCallback`, so if that callback is needed, make sure to call its super.
+These operations happen during the `disconnectedCallback`, so if that callback
+is needed, make sure to call its super.
 
 ```ts
 class C extends WebComponent<any> {
