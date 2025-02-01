@@ -206,7 +206,9 @@ export const buildDocs = (): void => {
 
     const importStr = isDefault ? `${className}` : `{ ${className} }`;
 
-    return `import ${importStr} from "${filePath.replace(cwd, ".")}";`;
+    return `import ${importStr} from "${
+      filePath.replace(cwd, ".").replace(/\\/gm, "/")
+    }";`;
   });
 
   componentTypes = componentTypes.concat(imports.join("\n") + "\n");
